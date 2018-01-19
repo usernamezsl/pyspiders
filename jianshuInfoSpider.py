@@ -56,9 +56,8 @@ def analysis_data(base_url, html):
     # 喜欢数
     likes = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="meta"]/span/text()')
     # 发布时间
-    report_times = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="author"]'
-                            '/div[@class="info"]/span[@class="time"]/text()')
-    print(report_times)
+    # report_times = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="author"]'
+    #                         '/div[@class="info"]/span[@class="time"]/text()')
     result_list = []
     for i in range(0, len(titles)):
         result_dict = {
@@ -67,8 +66,7 @@ def analysis_data(base_url, html):
             'nickname': '',
             'looked': '',
             'comment': '',
-            'like': '',
-            'report_time': ''
+            'like': ''
         }
         result_dict['title'] = titles[i]
         result_dict['link'] = base_url + links[i]
@@ -76,7 +74,7 @@ def analysis_data(base_url, html):
         result_dict['looked'] = lookeds[i]
         result_dict['comment'] = comments[i]
         result_dict['like'] = likes[i]
-        result_dict['report_time'] = report_times[i]
+        # result_dict['report_time'] = report_times[i]
         result_list.append(result_dict)
     return result_list
 
@@ -89,9 +87,9 @@ def save_data(result_list):
     '''
     # 数据库信息
     db_config = {
-        'host': '127.0.0.1',
+        'host': 'xx.xx.xx.xx',
         'user': 'root',
-        'password': 'root',
+        'password': 'xxxxxx',
         'db': 'db_test'
     }
     # 初始化数据库操作
