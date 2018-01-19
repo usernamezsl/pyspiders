@@ -28,24 +28,58 @@ def getJianshuInfo(user_id,page):
         response = requests.get(url=target_url, headers=headers,params=payload)
         if response.status_code == 200:
             html = response.text
-            et = etree.HTML(html)
-            titles = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/a[@class="title"]/text()')
-            links = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/a[@class="title"]/@href')
-            nicknames = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="author"]'
-                                '/div[@class="info"]/a[@class="nickname"]/text()')
-            # report_time = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="author"]'
-            #                        '/div[@class="info"]/span[@class="time"]/text()')
-            # print(report_time)
-            result_list = []
-            for i in range(0,len(titles)):
-                result_dict = {}
-                result_dict['title'] = titles[i]
-                result_dict['link'] = base_url + links[i]
-                result_dict['nickname'] = nicknames[i]
-                result_list.append(result_dict)
+            result_list = analysis_data(base_url, html)
             save_data(result_list)
     except Exception as e:
         print(e)
+
+
+def analysis_data(base_url, html):
+    '''
+    解析网页数据 返回数据字典列表
+    :param base_url: 基础url 用于拼接文章链接
+    :param html: 网页html
+    :return: 数据字典列表
+    '''
+    et = etree.HTML(html)
+    # 标题
+    titles = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/a[@class="title"]/text()')
+    # 文章链接
+    links = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/a[@class="title"]/@href')
+    # 作者
+    nicknames = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="author"]'
+                         '/div[@class="info"]/a[@class="nickname"]/text()')
+    # 看的次数
+    lookeds = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="meta"]/a[1]/text()')
+    # 评论数
+    comments = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="meta"]/a[2]/text()')
+    # 喜欢数
+    likes = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="meta"]/span/text()')
+    # 发布时间
+    report_times = et.xpath('//ul[@class="note-list"]/li/div[@class="content"]/div[@class="author"]'
+                            '/div[@class="info"]/span[@class="time"]/text()')
+    print(report_times)
+    result_list = []
+    for i in range(0, len(titles)):
+        result_dict = {
+            'title': '',
+            'link': '',
+            'nickname': '',
+            'looked': '',
+            'comment': '',
+            'like': '',
+            'report_time': ''
+        }
+        result_dict['title'] = titles[i]
+        result_dict['link'] = base_url + links[i]
+        result_dict['nickname'] = nicknames[i]
+        result_dict['looked'] = lookeds[i]
+        result_dict['comment'] = comments[i]
+        result_dict['like'] = likes[i]
+        result_dict['report_time'] = report_times[i]
+        result_list.append(result_dict)
+    return result_list
+
 
 def save_data(result_list):
     '''
