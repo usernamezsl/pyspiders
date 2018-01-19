@@ -31,11 +31,11 @@ def getMobileInfo(mobile):
             response_dict = json.loads(response_json)
             # 构造存入数据库的数据dict
             result_dict = {}
-            result_dict['mobile'] = response_dict.get('Mobile')
+            result_dict['mobile_num'] = response_dict.get('Mobile')
             result_dict['province'] = response_dict.get('Province')
             result_dict['city'] = response_dict.get('City')
-            result_dict['postCode'] = response_dict.get('PostCode')
-            result_dict['areaCode'] = response_dict.get('AreaCode')
+            result_dict['post_code'] = response_dict.get('PostCode')
+            result_dict['area_code'] = response_dict.get('AreaCode')
             result_dict['corp'] = response_dict.get('Corp')
             result_dict['mobile_area'] = response_dict.get('Province') + response_dict.get('City')
             # 数据库信息
@@ -62,19 +62,13 @@ def requestAllSections(phoneSections):
     last = 0
     # 自动生成手机号码，后四位补0
     start = time.time()
-    # 开启进程池
-    pool = Pool(processes=8)
     for head in phoneSections:
         for i in range(0, 10000):
             # 线程休眠3s
-            # time.sleep(3)
+            time.sleep(3)
             middle = str(i).zfill(4)
             phoneNum = head + middle
-            # 多进程调用
             getMobileInfo(phoneNum)
-            # pool.apply_async(getMobileInfo, args=(phoneNum,))
-            # pool.close()
-            # pool.join()
         last = 0
     end = time.time()
     print('数据抓取完成！耗时 {}s'.format(end-start))
@@ -82,9 +76,15 @@ def requestAllSections(phoneSections):
 if __name__ == '__main__':
     #要抓取的手机号段
     # yys = ['130', '189', '172', '175', '149', '173', '178', '171', '170']
-    yys = ['180','133','189','173','177','181','131',
+    yys = ['189','173','177','181','131',
            '132','156','155','186','185','145','176',
            '139','138','137','136','135','134','159',
            '158','157','150','151','152','147','188',
            '187','182','183','184','178']
-    requestAllSections(yys)
+    # 开启进程池
+    pool = Pool(processes=8)
+    # 多进程调用
+    pool.apply_async(requestAllSections, args=(yys,))
+    pool.close()
+    pool.join()
+    # requestAllSections(yys)
