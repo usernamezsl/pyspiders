@@ -94,10 +94,7 @@ def save_data(result_list):
     }
     # 初始化数据库操作
     lazyStore = LazyMysql(db_config)
-    for result in result_list:
-        result_save = lazyStore.save_one_data(result, 'jianshu_info')
-        if result_save == 1:
-            print('一条数据入库成功！')
+    lazyStore.save_data_list(result_list,'jianshu_info')
 
 
 

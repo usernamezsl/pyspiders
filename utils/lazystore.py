@@ -101,6 +101,18 @@ class LazyMysql():
         res = self.query(sql)
         return 1 if res != -1 else res
 
+    def save_data_list(self,data_list,table):
+        '''
+        将一个集合数据保存到数据库
+        :param data_list: 表名字 str
+        :param table: 集合数据 list
+        :return: 
+        '''
+        for data in data_list:
+            result_save = self.save_one_data(data=data,table=table)
+            if result_save == 1:
+                print('一条数据入库成功！')
+
     def delete_by_field(self, table, field, field_value):
         '''
         从数据库里删除指定条件的记录
