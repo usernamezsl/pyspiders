@@ -1,7 +1,7 @@
 import requests
 from lxml import etree
 import time
-from multiprocessing import pool
+from multiprocessing import Pool
 from utils.lazystore import LazyMysql
 
 
@@ -92,7 +92,11 @@ def main(start_page,end_page):
 
 
 if __name__ == '__main__':
-    main(1,83)
+    pool = Pool(processes=8)
+    pool.apply_async(main,args=(1,83))
+    pool.close()
+    pool.join()
+    # main(1,83)
 
 
 
