@@ -73,14 +73,14 @@ def main(start_page,end_page):
     :return: 
     '''
     start = time.time()
-    url = 'http://www.mmjpg.com'
+    base_url = 'http://www.mmjpg.com'
     for page in range(start_page,end_page + 1):
         if start_page == 1:
             print('==开始抓取第{}页数据=='.format(page))
-            get_page_info(url=url)
+            get_page_info(url=base_url)
             print('===============华丽分割===============')
         else:
-            url = url + '/home/' + page
+            url = base_url + '/home/' + str(page)
             print('==开始抓取第{}页数据=='.format(page))
             get_page_info(url=url)
             print('===============华丽分割===============')

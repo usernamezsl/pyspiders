@@ -111,7 +111,7 @@ def save_data(result_list):
     :return:
     '''
     db_config = {
-        'host': '47.100.35.26',
+        'host': 'xx.xx.xx.xx',
         'user': 'root',
         'password': '123456',
         'db': 'db_test'
@@ -122,14 +122,14 @@ def save_data(result_list):
 
 def main(start_page,end_page):
     start = time.time()
-    url = 'https://www.1124s.com/Html/110/'
+    base_url = 'https://www.1124s.com/Html/110/'
     for page in range(start_page,end_page):
         if page == 1:
             print('===============开始抓取第{}页数据==============='.format(page))
-            get_page_url(url=url)
+            get_page_url(url=base_url)
             print('===============华丽分割===============')
         else:
-            url = url + 'index-' + page + '.html'
+            url = base_url + 'index-' + str(page) + '.html'
             print('===============开始抓取第{}页数据==============='.format(page))
             get_page_url(url=url)
             print('===============华丽分割===============')
@@ -138,5 +138,5 @@ def main(start_page,end_page):
     print('数据抓取完成，耗时{}s'.format(time.time() - start))
     pass
 if __name__ == '__main__':
-    main(start_page=1,end_page=215)
+    main(start_page=4,end_page=215)
     pass
