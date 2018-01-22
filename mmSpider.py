@@ -28,7 +28,7 @@ def save_data(result_list):
     :return: 
     '''
     db_config = {
-        'host': '47.100.35.26',
+        'host': 'xx.xxx.xxx.xxx',
         'user': 'root',
         'password': '123456',
         'db': 'db_test'
